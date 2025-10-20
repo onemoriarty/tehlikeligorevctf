@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <%- include('partials/head') %>
+    <title>Ana Panel - AETHERNET</title>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main class="container mx-auto mt-8">
+        <div class="bg-aeterna-bg border border-aeterna-border rounded-lg p-8">
+            <h1 class="text-3xl font-bold text-aeterna-blue mb-4">Hoş Geldin, <%= user.username %></h1>
+            <p class="text-lg">Sistem durumu nominal. Atanmış göreviniz: Veri Bütünlüğünü Koruma. Mevcut Erişim Seviyesi: <strong class="text-yellow-400"><%= user.accessLevel %></strong>.</p>
+            <p class="mt-2">Erişebileceğiniz operasyonel modüller aşağıda listelenmiştir.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+            <a href="/profile/configuration" class="bg-aeterna-bg border border-aeterna-border rounded-lg p-6 hover:border-aeterna-blue transition-colors duration-300">
+                <h2 class="text-2xl font-bold text-aeterna-blue mb-2">Profil Konfigürasyonu</h2>
+                <p class="text-aeterna-text/80">Arayüz ayarlarınızı yapılandırın. Sistem performansını optimize etmek için gelişmiş JSON yapılandırmasını kullanın.</p>
+                <span class="mt-4 inline-block text-aeterna-green font-bold">» Modüle Git</span>
+            </a>
+            <a href="/documents" class="bg-aeterna-bg border border-aeterna-border rounded-lg p-6 hover:border-aeterna-blue transition-colors duration-300">
+                <h2 class="text-2xl font-bold text-aeterna-blue mb-2">Belge Arşivi</h2>
+                <p class="text-aeterna-text/80">Aeterna Dynamics genel ve departman belgelerine erişin. Yetkiniz dahilindeki dosyaları görüntüleyin.</p>
+                <span class="mt-4 inline-block text-aeterna-green font-bold">» Modüle Git</span>
+            </a>
+            <% if (user.accessLevel === 'PROJECT_DIRECTOR') { %>
+                <a href="/secure/icarus-terminal" class="bg-red-900/50 border border-aeterna-red rounded-lg p-6 hover:border-red-400 transition-colors duration-300 animate-pulse">
+                    <h2 class="text-2xl font-bold text-aeterna-red mb-2">!!! GÜVENLİ TERMİNAL !!!</h2>
+                    <p class="text-aeterna-text/80">YÜKSEK GİZLİLİK. Proje Ikarus ham verilerine ve analiz loglarına doğrudan erişim.</p>
+                    <span class="mt-4 inline-block text-yellow-400 font-bold">» GİZLİ ERİŞİM</span>
+                </a>
+            <% } else { %>
+                 <div class="bg-aeterna-bg/50 border border-dashed border-aeterna-border rounded-lg p-6 text-center flex flex-col justify-center">
+                     <h2 class="text-2xl font-bold text-aeterna-text/50 mb-2">Yetersiz Yetki</h2>
+                     <p class="text-aeterna-text/40">Bu alanda ek modüller görüntülemek için gerekli erişim seviyesine sahip değilsiniz.</p>
+                 </div>
+            <% } %>
+        </div>
+    </main>
+</body>
+</html>

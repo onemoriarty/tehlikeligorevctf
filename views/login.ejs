@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <%- include('partials/head') %>
+    <title>AETHERNET - Kimlik Doğrulama</title>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-md">
+        <div class="bg-aeterna-bg border border-aeterna-border rounded-lg p-8 shadow-2xl">
+            <h1 class="text-3xl font-bold text-center text-aeterna-blue mb-6">AETHERNET AĞ GEÇİDİ</h1>
+            
+            <!-- Login Form -->
+            <form id="loginForm" class="mb-8">
+                <h2 class="text-xl mb-4">Personel Oturum Açma</h2>
+                <input type="text" name="username" placeholder="Personel ID" class="w-full bg-aeterna-dark border border-aeterna-border p-2 rounded mb-4 text-white focus:outline-none focus:ring-2 focus:ring-aeterna-blue" required>
+                <input type="password" name="password" placeholder="Parola" class="w-full bg-aeterna-dark border border-aeterna-border p-2 rounded mb-4 text-white focus:outline-none focus:ring-2 focus:ring-aeterna-blue" required>
+                <button type="submit" class="w-full bg-aeterna-green text-white font-bold py-2 rounded">Bağlantı Kur</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm">
+                <h2 class="text-xl mb-4">Yeni Personel Kaydı</h2>
+                <input type="text" name="username" placeholder="Personel ID" class="w-full bg-aeterna-dark border border-aeterna-border p-2 rounded mb-4 text-white focus:outline-none focus:ring-2 focus:ring-aeterna-blue" required>
+                <input type="password" name="password" placeholder="Parola" class="w-full bg-aeterna-dark border border-aeterna-border p-2 rounded mb-4 text-white focus:outline-none focus:ring-2 focus:ring-aeterna-blue" required>
+                <button type="submit" class="w-full bg-aeterna-blue text-white font-bold py-2 rounded">Profil Oluştur</button>
+            </form>
+
+            <p id="message" class="text-aeterna-red mt-4 text-center h-4"></p>
+        </div>
+    </div>
+    <script>
+        const msgEl = document.getElementById('message');
+        
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const data = Object.fromEntries(new FormData(form).entries());
+            const response = await fetch('/api/v1/session/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (response.ok && result.status === 'AUTH_SUCCESS') {
+                window.location.href = '/dashboard';
+            } else {
+                msgEl.textContent = result.message || 'Bilinmeyen hata.';
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const data = Object.fromEntries(new FormData(form).entries());
+            const response = await fetch('/api/v1/session/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (response.ok && result.status === 'CREATED') {
+                msgEl.textContent = 'Profil oluşturuldu. Lütfen giriş yapın.';
+                msgEl.style.color = '#2ea043';
+                form.reset();
+            } else {
+                msgEl.textContent = result.message || 'Bilinmeyen hata.';
+            }
+        });
+    </script>
+</body>
+</html>

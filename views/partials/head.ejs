@@ -1,0 +1,27 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- TAILWIND PLAY CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    // Tailwind'in varsayılanlarını, kendi distopik temamızla eziyoruz.
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    'aeterna-dark': '#0d1117',
+                    'aeterna-bg': '#161b22',
+                    'aeterna-border': '#30363d',
+                    'aeterna-text': '#c9d1d9',
+                    'aeterna-green': '#2ea043',
+                    'aeterna-blue': '#58a6ff',
+                    'aeterna-red': '#f85149',
+                }
+            }
+        }
+    }
+</script>
+<style type="text/tailwindcss">
+    body {
+        @apply bg-aeterna-dark text-aeterna-text font-mono;
+    }
+</style>

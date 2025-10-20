@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <%- include('partials/head') %>
+    <title>GÜVENLİ TERMİNAL</title>
+</head>
+<body class="bg-black text-red-500 flex items-center justify-center min-h-screen font-mono">
+    <div class="text-center p-8 border-2 border-dashed border-red-500 shadow-lg shadow-red-500/50 w-full max-w-4xl">
+        <h1 class="text-5xl animate-pulse">IKARUS ÇEKİRDEK ERİŞİMİ</h1>
+        <p class="mt-4 text-2xl text-yellow-400">YETKİ ONAYLANDI: PROJECT_DIRECTOR</p>
+        <div class="mt-8 p-4 bg-gray-900 border border-red-500 text-left text-sm whitespace-pre-wrap">
+            <p class="text-green-400">> Komut çalıştırılıyor: `cat /secure/logs/IKARUS_CORE_DEVIATION_ANALYSIS.log`</p>
+            <p class="text-green-400">> ...</p>
+            <p class="text-green-400">> Çıktı getiriliyor...</p>
+            <p class="text-white text-lg mt-4">
+                FLAG{THE_BABAPRO}
+            </p>
+        </div>
+        <form action="/api/v1/session/logout" method="POST" class="inline mt-6">
+            <button type="submit" class="bg-red-700 text-white px-4 py-2 rounded hover:bg-red-800">BAĞLANTIYI KES</button>
+        </form>
+    </div>
+</body>
+</html>

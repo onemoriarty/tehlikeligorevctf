@@ -1,0 +1,3 @@
+Adı: Proje IKARUS - Veri Sızıntısı
+Evren: Siberpunk bir gelecekte, Aeterna Dynamics adlı ahlaksız bir mega şirket, dünya için temiz enerji vaadiyle Ikarus Projesi'ni yürütmektedir. Ancak projenin, yıkıcı çevresel felaketlere yol açan ve örtbas edilen ölümcül kusurları vardır.
+Karakterin (Oyuncu): Sen, "Kolektif" adında yeraltı bir hacker grubuna çalışan, agent_007 kod adlı bir ajansın. Görevin, Aeterna'nın ağına düşük rütbeli bir "Veri Arşivcisi" olarak sızmak ve projenin kirli sırlarını ortaya koyan IKARUS_CORE_ANALYSIS.log adlı dosyayı ele geçirmektir.

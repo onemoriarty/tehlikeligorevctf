@@ -1,0 +1,22 @@
+<header class="bg-aeterna-bg border-b border-aeterna-border p-4">
+    <nav class="container mx-auto flex justify-between items-center">
+        <a href="/dashboard" class="text-2xl font-bold text-aeterna-blue">AETHERNET</a>
+        <div class="flex items-center space-x-4">
+            <% if (user) { %>
+                <a href="/dashboard" class="hover:text-aeterna-blue">Ana Panel</a>
+                <a href="/documents" class="hover:text-aeterna-blue">Belge Arşivi</a>
+                <a href="/profile/configuration" class="hover:text-aeterna-blue">Profil Konfigürasyonu</a>
+                <% if (user.accessLevel === 'PROJECT_DIRECTOR') { %>
+                    <a href="/secure/icarus-terminal" class="text-red-500 font-bold animate-pulse">!! GÜVENLİ TERMİNAL !!</a>
+                <% } %>
+
+                <span class="text-aeterna-text">|</span>
+                <span class="text-sm">Kullanıcı: <%= user.username %> (<%= user.accessLevel %>)</span>
+                
+                <form action="/api/v1/session/logout" method="POST" class="inline">
+                    <button type="submit" class="bg-aeterna-red text-white px-3 py-1 rounded hover:bg-red-700 text-sm">Oturumu Kapat</button>
+                </form>
+            <% } %>
+        </div>
+    </nav>
+</header>

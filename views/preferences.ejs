@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <%- include('partials/head') %>
+    <title>Profil Konfigürasyonu - AETHERNET</title>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main class="container mx-auto mt-8">
+        <div class="bg-aeterna-bg border border-aeterna-border rounded-lg p-8">
+            <h1 class="text-3xl font-bold text-aeterna-blue mb-6">Profil Konfigürasyonu</h1>
+            <p class="mb-4">Bu panel, arayüz deneyiminizi kişiselleştirmenizi sağlar. Ayarlar JSON formatında gönderilir.</p>
+            <div id="message-container" class="h-12"></div>
+            <form id="prefsForm">
+                <label for="prefsInput" class="block mb-2 font-bold text-aeterna-text/80">Profil Konfigürasyonu (JSON)</label>
+                <textarea id="prefsInput" class="w-full h-64 bg-aeterna-dark border border-aeterna-border p-2 rounded font-mono text-white focus:outline-none focus:ring-2 focus:ring-aeterna-blue"><%= JSON.stringify(profileConfig, null, 2) %></textarea>
+                <button type="submit" class="mt-4 bg-aeterna-green text-white font-bold py-2 px-6 rounded hover:bg-green-500 transition-colors">Değişiklikleri Uygula</button>
+            </form>
+            <div id="response-container" class="mt-6 hidden">
+                <h2 class="text-xl font-bold">Son Sistem Yanıtı:</h2>
+                <pre id="response" class="mt-2 font-mono p-3 bg-aeterna-dark border border-aeterna-border rounded text-sm whitespace-pre-wrap"></pre>
+            </div>
+        </div>
+    </main>
+    <script>
+        document.getElementById('prefsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const prefsText = document.getElementById('prefsInput').value;
+            const responseDiv = document.getElementById('response');
+            const responseContainer = document.getElementById('response-container');
+            const messageContainer = document.getElementById('message-container');
+            let prefsData;
+            try {
+                prefsData = JSON.parse(prefsText);
+            } catch (err) {
+                 responseContainer.classList.remove('hidden');
+                 responseDiv.textContent = 'HATA: Geçersiz JSON formatı.';
+                 responseDiv.style.borderColor = '#f85149';
+                 return;
+            }
+            try {
+                const response = await fetch('/api/v1/user/configuration', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(prefsData)
+                });
+                const result = await response.json();
+                responseContainer.classList.remove('hidden');
+                responseDiv.textContent = JSON.stringify(result, null, 2);
+                if (response.ok) {
+                    responseDiv.style.borderColor = '#2ea043';
+                    messageContainer.innerHTML = `<div class="bg-aeterna-green/20 border border-aeterna-green text-aeterna-green p-3 rounded mb-4">Başarılı! Sayfa güncelleniyor...</div>`;
+                    setTimeout(() => { window.location.reload(); }, 1500);
+                } else {
+                    responseDiv.style.borderColor = '#f85149';
+                }
+            } catch (err) {
+                responseContainer.classList.remove('hidden');
+                responseDiv.textContent = `Ağ Hatası: ${err.message}`;
+                responseDiv.style.borderColor = '#f85149';
+            }
+        });
+    </script>
+</body>
+</html>

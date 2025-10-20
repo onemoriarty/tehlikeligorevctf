@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <%- include('partials/head') %>
+    <title>Belge Arşivi - AETHERNET</title>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main class="container mx-auto mt-8">
+        <div class="bg-aeterna-bg border border-aeterna-border rounded-lg p-8">
+            <h1 class="text-3xl font-bold text-aeterna-blue mb-6">Aeterna Belge Arşivi</h1>
+            <table class="w-full text-left">
+                <thead>
+                    <tr class="border-b border-aeterna-border">
+                        <th class="p-2">Belge Adı</th>
+                        <th class="p-2">Sınıflandırma</th>
+                        <th class="p-2">Eylem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% files.forEach(file => { %>
+                        <tr class="border-b border-aeterna-border/50">
+                            <td class="p-2"><%= file.fileName %></td>
+                            <td class="p-2 font-bold <%= file.classification === 'PROJECT_DIRECTOR' ? 'text-aeterna-red' : '' %>"><%= file.classification %></td>
+                            <td class="p-2">
+                                <button onclick="retrieveDocument('<%= file.uuid %>')" class="bg-aeterna-blue text-white px-3 py-1 rounded text-sm">Görüntüle</button>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+            <div id="docContentContainer" class="mt-6 hidden">
+                 <h2 class="text-xl font-bold">Belge İçeriği:</h2>
+                 <pre id="docContent" class="mt-2 font-mono p-3 bg-aeterna-dark border border-aeterna-border rounded text-sm whitespace-pre-wrap"></pre>
+            </div>
+        </div>
+    </main>
+    <script>
+        async function retrieveDocument(uuid) {
+            const response = await fetch(`/api/v1/documents/retrieve/${uuid}`);
+            const result = await response.json();
+            const contentDiv = document.getElementById('docContent');
+            const container = document.getElementById('docContentContainer');
+            container.classList.remove('hidden');
+            contentDiv.textContent = JSON.stringify(result, null, 2);
+             if(response.ok) {
+                contentDiv.style.borderColor = '#2ea043';
+            } else {
+                contentDiv.style.borderColor = '#f85149';
+            }
+        }
+    </script>
+</body>
+</html>
